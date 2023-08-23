@@ -1,3 +1,6 @@
 <template>
-  <Box />
+  <div class="bg-primary">
+
+    <Box />
+  </div>
 </template>
