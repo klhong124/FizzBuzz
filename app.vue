@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-primary">
-
-    <Box />
-  </div>
+  <title>FizzBuzz</title>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
