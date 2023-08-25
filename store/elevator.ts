@@ -21,22 +21,18 @@ export const useElevator = defineStore("elevator", {
   getters: {
     isMoving: (state) => state.floor !== state.selectedFloor,
     isMovingUp: (state) => state.floor < state.selectedFloor,
-      isMovingDown: (state) => state.floor > state.selectedFloor,
-    
-      getFizzBuzz: (state) => {
-        const fizzBuzz = [];
-        for (let i = 1; i <= 100; i++) {
-          if (i % 15 === 0) {
-            fizzBuzz.push("FizzBuzz");
-          } else if (i % 3 === 0) {
-            fizzBuzz.push("Fizz");
-          } else if (i % 5 === 0) {
-            fizzBuzz.push("Buzz");
-          } else {
-            fizzBuzz.push(i);
-          }
-        }
-        return fizzBuzz;
+    isMovingDown: (state) => state.floor > state.selectedFloor,
+    getFizzBuzz: (state) => {
+      if (state.floor % 3 === 0 && state.floor % 5 === 0) {
+        return "FizzBuzz";
       }
+      if (state.floor % 3 === 0) {
+        return "Fizz";
+      }
+      if (state.floor % 5 === 0) {
+        return "Buzz";
+      }
+      return state.floor;
+    },
   },
 });

@@ -142,7 +142,7 @@ function setupScene() {
   _chainBody = chains;
   _world = world;
 
-  _cannonDebugger = new CannonDebugger(_scene, _world);
+//   _cannonDebugger = new CannonDebugger(_scene, _world);
 
   //create elevator and add to scene
   const loader = new GLTFLoader();
