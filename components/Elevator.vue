@@ -1,8 +1,22 @@
 <script setup lang="ts">
-import { useElevator } from "~/store/elevator";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-const elevator = useElevator();
 
+import { useElevator } from "~/store/elevator";
+const elevator = useElevator();
+let safeToOpenDoor = false;
+setTimeout(() => {
+  safeToOpenDoor = true;
+}, 1500);
+const isMoving = computed(() => elevator.isMoving);
+watch(isMoving, (bool) => {
+  if (!bool) {
+    setTimeout(() => {
+      safeToOpenDoor = true;
+    }, 1500);
+  } else {
+    safeToOpenDoor = false;
+  }
+});
 import { useThree } from "@/utils/useThree";
 import {
   BoxGeometry,
@@ -49,45 +63,71 @@ function openDoor() {
     _rightDoor.position.z += 0.1;
   }
 }
-function closeDoor () {
+function closeDoor() {
   if (_leftDoor.position.z < 0.2 - 0.8) {
     _leftDoor.position.z += 0.1;
     _rightDoor.position.z -= 0.1;
   }
 }
-function animateObject() {
+
+function cameraMovement() {
+  if (_elevatorBody.position.y + 3 > _camera.position.y) {
+    _camera.position.y = _elevatorBody.position.y + 3;
+  }
+  if (_camera.position.y > _elevatorBody.position.y + 9) {
+    _camera.position.y = _elevatorBody.position.y + 9;
+  }
+  if (_elevatorBody.position.y + 6 - _camera.position.y > 0.3) {
+    _camera.position.y += 0.01;
+  }
+  if (_elevatorBody.position.y + 6 - _camera.position.y < -0.3) {
+    _camera.position.y -= 0.01;
+  }
+}
+
+function LightPlacement() {
+  _keyLight.position.y = _elevatorBody.position.y + 5;
+  _backLight.position.y = _elevatorBody.position.y + 2;
+  _fillLight.position.y = _elevatorBody.position.y + 2;
+}
+
+function elevatorAnimation() {
   if (_elevator) {
     _elevator.position.y = _elevatorBody.position.y - 1.3;
   }
   _elevatorLight.position.y = _elevatorBody.position.y + 1;
-  _keyLight.position.y = _elevatorBody.position.y + 0.5;
-  _backLight.position.y = _elevatorBody.position.y + 3;
-  _fillLight.position.y = _elevatorBody.position.y + 1;
+
   _leftDoor.position.y = _elevatorBody.position.y - 0.3;
   _rightDoor.position.y = _elevatorBody.position.y - 0.3;
-  _camera.position.y = _elevatorBody.position.y + 6;
+
+  if (safeToOpenDoor) {
+    openDoor();
+  } else {
+    closeDoor();
+  }
+  _elevatorBody.position.set(0, _elevatorBody.position.y, 0);
+}
+
+function chainAnimation() {
   _chains.forEach((chain: any, index: number) => {
     chain.position.copy(_chainBody[index].position);
   });
   if (elevator.floor >= 0) {
-    _chainBody[0].position.y =12 + elevator.floor * 2;
+    _chainBody[0].position.y = 26 + elevator.floor * 3;
   }
   _chainBody.forEach((chain: any) => {
     chain.position.set(0, chain.position.y, 0);
   });
-  _elevatorBody.position.set(0, _elevatorBody.position.y, 0);
-
-  if (elevator.isMoving) {
-    closeDoor();
-  } else {
-    openDoor();
-  }
 }
 function renderLoop() {
   _world.step(1 / 60);
   _renderer.render(_scene, _camera);
   //   _cannonDebugger.update();
-  animateObject();
+  elevatorAnimation();
+  chainAnimation();
+  cameraMovement();
+  LightPlacement();
+
   _renderLoopId = requestAnimationFrame(renderLoop);
 }
 function setupScene() {
@@ -116,7 +156,6 @@ function setupScene() {
     }) {
       _elevator = gltf.scene;
       _elevator.rotation.y = -Math.PI / 2;
-
       _elevator.scale.set(0.8, 0.8, 0.8);
       _scene.add(_elevator);
     }
@@ -127,29 +166,30 @@ function setupScene() {
   const doorMaterial = new MeshLambertMaterial({ color: 0x62a8ff });
   _leftDoor = new Mesh(doorGeometry, doorMaterial);
   _rightDoor = new Mesh(doorGeometry, doorMaterial);
+
   _leftDoor.position.set(-1, 2.5, 0.2);
   _rightDoor.position.set(-1, 2.5, -0.6);
   _scene.add(_leftDoor);
   _scene.add(_rightDoor);
 
   // Lights
-  _keyLight = new PointLight(0xDFFDFF, 25);
-  _keyLight.position.set(0, 5, 4);
+  _keyLight = new PointLight(0xffffff, 80);
+  _keyLight.position.set(7, 6, 9);
   scene.add(_keyLight);
   //   scene.add(new PointLightHelper(_keyLight));
 
-  _fillLight = new PointLight(0x84D2F6, 25);
-  _fillLight.position.set(5, 5, 0);
+  _fillLight = new PointLight(0x84d2f6, 50);
+  _fillLight.position.set(6, 5, 4);
   scene.add(_fillLight);
   //   scene.add(new PointLightHelper(_fillLight));
 
-  _backLight = new PointLight(0xDFFDFF, 35);
-  _backLight.position.set(-5, 5, 0);
+  _backLight = new PointLight(0xdffdff, 30);
+  _backLight.position.set(-8, 5, -5);
   scene.add(_backLight);
   //   scene.add(new PointLightHelper(_backLight));
 
   // add a spot light
-  _elevatorLight = new SpotLight(0xFFB96F, 1.5);
+  _elevatorLight = new SpotLight(0xffb96f, 1.5);
   _elevatorLight.angle = Math.PI / 3;
   _elevatorLight.penumbra = 0.5;
   _elevatorLight.distance = 3;
@@ -159,7 +199,7 @@ function setupScene() {
   //create chains and add to scene
   _chains = chains.map(() => {
     const boxGeometry = new BoxGeometry(0.1, 0.1, 0.1);
-    const boxMaterial = new MeshLambertMaterial({ color: 0xFCFFFC });
+    const boxMaterial = new MeshLambertMaterial({ color: 0xfcfffc });
     return new Mesh(boxGeometry, boxMaterial);
   });
   _chains.forEach((chain) => {
@@ -178,7 +218,7 @@ function setupScene() {
     }) {
       _ground = gltf.scene;
       _ground.rotation.y = -Math.PI / 2;
-      _ground.position.y = -1.5;
+      _ground.position.y = 0;
       _scene.add(_ground);
     }
   );
@@ -197,5 +237,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <canvas id="elevator" />
+  <div class="absolute">
+    <canvas id="elevator" />
+  </div>
 </template>

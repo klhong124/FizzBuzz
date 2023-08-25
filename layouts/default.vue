@@ -1,17 +1,14 @@
-<script setup lang="ts">
-
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <main>
+  <div>
     <Background />
-    <div class="absolute">
-      <Elevator />
-    </div>
+    <Elevator />
+    <Controller />
     <Floor />
-    <div class="absolute">
+
+    <main class="absolute">
       <slot />
-    </div>
-  </main>
+    </main>
+  </div>
 </template>

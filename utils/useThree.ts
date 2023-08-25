@@ -66,8 +66,8 @@ export function useThree () {
       1,
       1000
     );
-    camera.position.set(15, 9, 15);
-    camera.lookAt(0, 4, 0);
+    camera.position.set(15, 8, 15);
+    camera.lookAt(0, 2, 0);
     const scene = new Scene();
 
   
@@ -123,7 +123,7 @@ export function useThree () {
 
     // Elevator Physics
     const elevator = new CANNON.Body({
-      mass: 4,
+      mass: 0.1,
       shape: new CANNON.Box(new CANNON.Vec3(0.7, 1, 0.7)),
       position: new CANNON.Vec3(0, 0, 0),
     });
@@ -131,17 +131,17 @@ export function useThree () {
 
     // Chain Physics
     var size = 0.05;
-    var dist = size * 2 + 0.2;
+    var dist = size * 10 + 0.2;
     var shape = new CANNON.Sphere(size);
-    var mass = 0.7;
+    var mass = 1.5;
     var lastChain = null;
-    var N = 30;
+    var N = 30
     const chains = [];
     for (var i = 0; i < N; i++) {
       // Create a new body
       var chain = new CANNON.Body({ mass: i === 0 ? 0 : mass });
       chain.addShape(shape);
-      chain.position.set(0, 5 + (N - i) * dist, 0);
+      chain.position.set(0, 3 + (N - i) * dist, 0);
       world.addBody(chain);
       // Connect this body to the last one added
       var c;
