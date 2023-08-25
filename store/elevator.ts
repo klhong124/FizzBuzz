@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { defineStore } from "pinia";
 export const useElevator = defineStore("elevator", {
   state: () => ({
     floor: 0 as number,
@@ -23,6 +24,7 @@ export const useElevator = defineStore("elevator", {
     isMovingUp: (state) => state.floor < state.selectedFloor,
     isMovingDown: (state) => state.floor > state.selectedFloor,
     getFizzBuzz: (state) => {
+      if (state.floor === 0) return state.floor;
       if (state.floor % 3 === 0 && state.floor % 5 === 0) {
         return "FizzBuzz";
       }
