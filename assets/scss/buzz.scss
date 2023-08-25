@@ -1,0 +1,55 @@
+
+.buzz{
+    &::after,&::before{
+        @apply text-[30vw] absolute bg-clip-text text-transparent font-bold bg-gradient-to-b from-pink-500 via-red-500 to-yellow-500
+        top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 ;
+        content:attr(data-text);
+        opacity: 0.8;
+
+    }
+    &::after{
+        clip-path: polygon(0% 0%, 100% 0%, 100% 48%, 0% 58%);
+        animation: glitch 1s infinite linear alternate-reverse ;
+        
+        
+    }
+    &::before{
+        clip-path: polygon(0% 60%, 100% 50%, 100% 100%, 0% 100%);
+        animation: glitch 1s infinite linear alternate ;
+        animation-delay: .5s;
+        text-shadow: 0.05em 0 0 #6adce0, -0.03em -0.04em 0 #c4a8ec,
+        0.025em 0.04em 0 #4446c2;
+    }
+}
+
+
+@keyframes glitch {
+    0% {
+      text-shadow: 0.05em 0 0 #6adce0, -0.03em -0.04em 0 #c4a8ec,
+        0.025em 0.04em 0 #4446c2;
+    }
+    15% {
+      text-shadow: 0.05em 0 0 #6adce0, -0.03em -0.04em 0 #c4a8ec,
+        0.025em 0.04em 0 #4446c2;
+    }
+    16% {
+      text-shadow: -0.05em -0.025em 0 #6adce0, 0.025em 0.035em 0 #c4a8ec,
+        -0.05em -0.05em 0 #4446c2;
+    }
+    49% {
+      text-shadow: -0.05em -0.025em 0 #6adce0, 0.025em 0.035em 0 #c4a8ec,
+        -0.05em -0.05em 0 #4446c2;
+    }
+    50% {
+      text-shadow: 0.05em 0.035em 0 #6adce0, 0.03em 0 0 #c4a8ec,
+        0 -0.04em 0 #4446c2;
+    }
+    99% {
+      text-shadow: 0.05em 0.035em 0 #6adce0, 0.03em 0 0 #c4a8ec,
+        0 -0.04em 0 #4446c2;
+    }
+    100% {
+      text-shadow: -0.05em 0 0 #6adce0, -0.025em -0.04em 0 #c4a8ec,
+        -0.04em -0.025em 0 #4446c2;
+    }
+}

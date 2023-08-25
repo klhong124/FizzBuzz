@@ -71,7 +71,7 @@ export function useThree () {
     const scene = new Scene();
 
   
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    const ambientLight = new THREE.AmbientLight(0xffffff,1.2);
     scene.add(ambientLight);
 
     // Helpers
@@ -141,7 +141,7 @@ export function useThree () {
       // Create a new body
       var chain = new CANNON.Body({ mass: i === 0 ? 0 : mass });
       chain.addShape(shape);
-      chain.position.set(0, 3 + (N - i) * dist, 0);
+      chain.position.set(0, 5.5 + (N - i) * dist, 0);
       world.addBody(chain);
       // Connect this body to the last one added
       var c;

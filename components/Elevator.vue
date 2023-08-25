@@ -58,15 +58,15 @@ const canvas = computed(
   () => document.getElementById("elevator") as HTMLCanvasElement
 );
 function openDoor() {
-  if (_leftDoor.position.z > -1.1) {
-    _leftDoor.position.z -= 0.1;
-    _rightDoor.position.z += 0.1;
+  if (_leftDoor.position.x > -1.1) {
+    _leftDoor.position.x -= 0.1;
+    _rightDoor.position.x += 0.1;
   }
 }
 function closeDoor() {
-  if (_leftDoor.position.z < 0.2 - 0.8) {
-    _leftDoor.position.z += 0.1;
-    _rightDoor.position.z -= 0.1;
+  if (_leftDoor.position.x < 0.2 - 0.8) {
+    _leftDoor.position.x += 0.1;
+    _rightDoor.position.x -= 0.1;
   }
 }
 
@@ -97,8 +97,8 @@ function elevatorAnimation() {
   }
   _elevatorLight.position.y = _elevatorBody.position.y + 1;
 
-  _leftDoor.position.y = _elevatorBody.position.y - 0.3;
-  _rightDoor.position.y = _elevatorBody.position.y - 0.3;
+  _leftDoor.position.y = _elevatorBody.position.y - 0.2;
+  _rightDoor.position.y = _elevatorBody.position.y - 0.2;
 
   if (safeToOpenDoor) {
     openDoor();
@@ -113,7 +113,7 @@ function chainAnimation() {
     chain.position.copy(_chainBody[index].position);
   });
   if (elevator.floor >= 0) {
-    _chainBody[0].position.y = 26 + elevator.floor * 3;
+    _chainBody[0].position.y = 25 + elevator.floor * 3;
   }
   _chainBody.forEach((chain: any) => {
     chain.position.set(0, chain.position.y, 0);
@@ -155,38 +155,39 @@ function setupScene() {
       >;
     }) {
       _elevator = gltf.scene;
-      _elevator.rotation.y = -Math.PI / 2;
+      _elevator.rotation.y = Math.PI / 2;
       _elevator.scale.set(0.8, 0.8, 0.8);
       _scene.add(_elevator);
     }
   );
 
   //   create doors for the elevator
-  const doorGeometry = new BoxGeometry(0.1, 2.2, 0.75);
+  const doorGeometry = new BoxGeometry(0.75, 2.1, 0.1);
   const doorMaterial = new MeshLambertMaterial({ color: 0x62a8ff });
   _leftDoor = new Mesh(doorGeometry, doorMaterial);
   _rightDoor = new Mesh(doorGeometry, doorMaterial);
 
-  _leftDoor.position.set(-1, 2.5, 0.2);
-  _rightDoor.position.set(-1, 2.5, -0.6);
+  _leftDoor.position.set(-0.6, 2, 0.8);
+  _rightDoor.position.set(0.2, 2, 0.8);
   _scene.add(_leftDoor);
   _scene.add(_rightDoor);
 
   // Lights
-  _keyLight = new PointLight(0xffffff, 80);
-  _keyLight.position.set(7, 6, 9);
+    _keyLight = new PointLight(0xffffff, 50
+    );
+  _keyLight.position.set(5, 6, 15);
   scene.add(_keyLight);
-  //   scene.add(new PointLightHelper(_keyLight));
+    // scene.add(new PointLightHelper(_keyLight));
 
-  _fillLight = new PointLight(0x84d2f6, 50);
-  _fillLight.position.set(6, 5, 4);
+  _fillLight = new PointLight(0xffffff, 50);
+  _fillLight.position.set(10, 5, 4);
   scene.add(_fillLight);
-  //   scene.add(new PointLightHelper(_fillLight));
+    // scene.add(new PointLightHelper(_fillLight));
 
   _backLight = new PointLight(0xdffdff, 30);
-  _backLight.position.set(-8, 5, -5);
+  _backLight.position.set(-10, 5, -10);
   scene.add(_backLight);
-  //   scene.add(new PointLightHelper(_backLight));
+    // scene.add(new PointLightHelper(_backLight));
 
   // add a spot light
   _elevatorLight = new SpotLight(0xffb96f, 1.5);
@@ -217,8 +218,8 @@ function setupScene() {
       >;
     }) {
       _ground = gltf.scene;
-      _ground.rotation.y = -Math.PI / 2;
-      _ground.position.y = 0;
+      _ground.rotation.y = -Math.PI / -2;
+      _ground.position.y = 2.8;
       _scene.add(_ground);
     }
   );

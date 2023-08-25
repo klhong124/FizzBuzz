@@ -13,8 +13,8 @@ const meme = ref();
 const resetBackground = () => {
   fizz.value.style.opacity = 0;
   buzz.value.style.opacity = 0;
-    fizzbuzz.value.style.opacity = 0;
-    meme.value.style.marginBottom = "-208px";
+  fizzbuzz.value.style.opacity = 0;
+  meme.value.style.marginBottom = "-208px";
 };
 
 watch(isMoving, (bool) => {
@@ -32,13 +32,15 @@ watch(isMoving, (bool) => {
         case "FizzBuzz":
           fizzbuzz.value.style.opacity = 1;
           break;
-          default:
+        default:
+          if (elevator.floor > 0) {
             meme.value.style.marginBottom = "0px";
+          }
           break;
       }
       setTimeout(() => {
         resetBackground();
-      }, 1500);
+      }, 1000);
     }, 1500);
   }
 });
@@ -88,14 +90,14 @@ watch(isMovingDown, (bool) => {
     ref="fizz"
     class="absolute h-full w-full bg-gradient-to-r from-yellow-200 via-green-200 to-green-300 transition-all opacity-0"
   >
-    <div class="shadow-text" data-text="FIZZ"></div>
+    <div class="fizz" data-text="FIZZ"></div>
   </div>
   <!-- Buzz -->
   <div
     ref="buzz"
     class="absolute h-full w-full bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 transition-all opacity-0"
   >
-    <div class="shadow-text" data-text="BUZZ"></div>
+    <div class="buzz" data-text="BUZZ"></div>
   </div>
   <!-- FizzBuzz -->
   <div
@@ -105,14 +107,20 @@ watch(isMovingDown, (bool) => {
     <div class="shadow-text" data-text="FizzBuzz"></div>
   </div>
   <!-- Just a number -->
-  <div  class="absolute bottom-0 left-4  overflow-hidden">
-    <img ref="meme" src="/gif/where-you.gif" class="mix-blend-darken w-52 h-52 -mb-52 transition-all" alt="" />
-  </div>
+  <!-- <div class="absolute bottom-0 left-4 overflow-hidden">
+    <img
+      ref="meme"
+      src="/gif/where-you.gif"
+      class="mix-blend-darken w-52 h-52 -mb-52 transition-all"
+      alt=""
+    />
+  </div> -->
 </template>
 
 <style lang="scss">
+@import "~/assets/scss/buzz.scss";
 .shadow-text {
-  @apply relative leading-relaxed text-[300px] font-primary opacity-80 text-red-500;
+  @apply relative leading-relaxed text-[300px] font-primary opacity-80 text-red-500 m-auto w-full h-full flex justify-center items-center;
 }
 .shadow-text:before,
 .shadow-text:after {
