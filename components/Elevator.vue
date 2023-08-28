@@ -97,7 +97,7 @@ function elevatorAnimation() {
   if (_elevator) {
     _elevator.position.y = _elevatorBody.position.y - 1.3;
   }
-  _elevatorLight.position.y = _elevatorBody.position.y + 1.1;
+  _elevatorLight.position.y = _elevatorBody.position.y + 1;
 
   _leftDoor.position.y = _elevatorBody.position.y - 0.2;
   _rightDoor.position.y = _elevatorBody.position.y - 0.2;
@@ -171,8 +171,8 @@ function setupScene() {
   _leftDoor = new Mesh(doorGeometry, doorMaterial);
   _rightDoor = new Mesh(doorGeometry, doorMaterial);
 
-  _leftDoor.position.set(-0.6, 2, 0.8);
-  _rightDoor.position.set(0.2, 2, 0.8);
+  _leftDoor.position.set(-0.6, 2, 0.79);
+  _rightDoor.position.set(0.2, 2, 0.79);
   _scene.add(_leftDoor);
   _scene.add(_rightDoor);
 

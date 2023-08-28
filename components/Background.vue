@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useElevator } from "~/store/elevator";
 const elevator = useElevator();
+const floor = computed(() => elevator.floor);
 const isMoving = computed(() => elevator.isMoving);
 const isMovingDown = computed(() => elevator.isMovingDown);
 const getFizzBuzz = computed(() => elevator.getFizzBuzz);
@@ -8,13 +9,14 @@ const windy = ref();
 const fizz = ref();
 const buzz = ref();
 const fizzbuzz = ref();
-const meme = ref();
+const number = ref();
+const floorNumber = ref();
 
 const resetBackground = () => {
   fizz.value.style.opacity = 0;
   buzz.value.style.opacity = 0;
   fizzbuzz.value.style.opacity = 0;
-  meme.value.style.marginBottom = "-208px";
+  number.value.style.opacity = 0;
 };
 
 watch(isMoving, (bool) => {
@@ -34,7 +36,12 @@ watch(isMoving, (bool) => {
           break;
         default:
           if (elevator.floor > 0) {
-            meme.value.style.marginBottom = "0px";
+            floorNumber.value = floor.value;
+            if (floorNumber.value < 10) {
+              floorNumber.value = "0" + floorNumber.value;
+            }
+            number.value.style.opacity = 0.5;
+
           }
           break;
       }
@@ -108,14 +115,7 @@ watch(isMovingDown, (bool) => {
     <div class="fizzbuzz" data-text="FIZZBUZZ"></div>
   </div>
   <!-- Just a number -->
-  <!-- <div class="absolute bottom-0 left-4 overflow-hidden">
-    <img
-      ref="meme"
-      src="/gif/where-you.gif"
-      class="mix-blend-darken w-52 h-52 -mb-52 transition-all"
-      alt=""
-    />
-  </div> -->
+  <div ref="number" class="absolute top-1/2 -translate-y-2/3 text-center text-[900px] leading-relaxed w-full h-full font-primary text-gray-400 opacity-0 ">{{floorNumber}}</div>
 </template>
 
 <style lang="scss">
@@ -123,5 +123,4 @@ watch(isMovingDown, (bool) => {
 @import "~/assets/scss/buzz.scss";
 @import "~/assets/scss/fizzbuzz.scss";
 @import "~/assets/scss/windy.scss";
-
 </style>
