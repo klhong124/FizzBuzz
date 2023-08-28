@@ -79,10 +79,10 @@ function cameraMovement() {
   if (_camera.position.y > _elevatorBody.position.y + 8) {
     _camera.position.y = _elevatorBody.position.y + 8;
   }
-  if (_elevatorBody.position.y + 6 - _camera.position.y > 0.3) {
+  if (_elevatorBody.position.y + 5 - _camera.position.y > 0.3) {
     _camera.position.y += 0.01;
   }
-  if (_elevatorBody.position.y + 6 - _camera.position.y < -0.3) {
+  if (_elevatorBody.position.y + 5 - _camera.position.y < -0.3) {
     _camera.position.y -= 0.01;
   }
 }
@@ -213,7 +213,7 @@ function setupScene() {
   //create chains and add to scene
   _chains = chains.map(() => {
     const boxGeometry = new BoxGeometry(0.1, 0.1, 0.1);
-    const boxMaterial = new MeshLambertMaterial({ color: 0xfcfffc });
+    const boxMaterial = new MeshLambertMaterial({ color: 0x535453 });
     return new Mesh(boxGeometry, boxMaterial);
   });
   _chains.forEach((chain) => {

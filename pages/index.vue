@@ -5,11 +5,11 @@ const { floor } = storeToRefs(store);
 </script>
 
 <template>
-  <div class="glass m-12 p-8">
+  <div class="glass m-12 p-8 ">
     <div class="font-primary text-5xl uppercase text-black">
       Fizz Buzz Elevator
     </div>
-    <p class="text-xl mt-4">by Ryan Kwan</p>
+    <p class="text-xl mt-4 ">Welcome to FizzBuzz Elevator.</p>
   </div>
 </template>
 
