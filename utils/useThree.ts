@@ -66,12 +66,12 @@ export function useThree () {
       1,
       1000
     );
-    camera.position.set(15, 8, 15);
-    camera.lookAt(0, 2, 0);
+    camera.position.set(15, 5, 15);
+    camera.lookAt(0, 5, 0);
     const scene = new Scene();
 
   
-    const ambientLight = new THREE.AmbientLight(0xffffff,1.2);
+    const ambientLight = new THREE.AmbientLight(0xffffff,1.5);
     scene.add(ambientLight);
 
     // Helpers
@@ -101,7 +101,7 @@ export function useThree () {
   
 
     // Controls
-    // const controls = new OrbitControls(camera, renderer.domElement);
+    const controls = new OrbitControls(camera, renderer.domElement);
 
     return { scene, camera, renderer };
   }

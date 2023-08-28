@@ -90,8 +90,9 @@ watch(isMovingDown, (bool) => {
     ref="fizz"
     class="absolute h-full w-full bg-gradient-to-r from-yellow-200 via-green-200 to-green-300 transition-all opacity-0"
   >
-    <div class="fizz" data-text="FIZZ"></div>
+    <div class="fizz">FIZZ</div>
   </div>
+
   <!-- Buzz -->
   <div
     ref="buzz"
@@ -102,9 +103,9 @@ watch(isMovingDown, (bool) => {
   <!-- FizzBuzz -->
   <div
     ref="fizzbuzz"
-    class="absolute h-full w-full bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-amber-200 via-violet-600 to-sky-900 transition-all opacity-0"
+    class="absolute h-full w-full bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-orange-900 via-amber-100 to-orange-900 transition-all opacity-0"
   >
-    <div class="shadow-text" data-text="FizzBuzz"></div>
+    <div class="fizzbuzz" data-text="FIZZBUZZ"></div>
   </div>
   <!-- Just a number -->
   <!-- <div class="absolute bottom-0 left-4 overflow-hidden">
@@ -118,52 +119,9 @@ watch(isMovingDown, (bool) => {
 </template>
 
 <style lang="scss">
+@import "~/assets/scss/fizz.scss";
 @import "~/assets/scss/buzz.scss";
-.shadow-text {
-  @apply relative leading-relaxed text-[300px] font-primary opacity-80 text-red-500 m-auto w-full h-full flex justify-center items-center;
-}
-.shadow-text:before,
-.shadow-text:after {
-  content: attr(data-text);
-}
-.shadow-text:before {
-  @apply left-0 top-0 absolute -z-10;
-  text-shadow: 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px,
-    0px 0px, 0px 0px, 0px 0px;
-  -webkit-mask: repeating-linear-gradient(
-    45deg,
-    transparent 0 3px,
-    rgba(0, 0, 0, 0.5) 0 6px
-  );
-  mask: repeating-linear-gradient(
-    45deg,
-    transparent 0 3px,
-    rgba(0, 0, 0, 0.5) 0 6px
-  );
-}
-.shadow-text {
-  transform: translate(-10px, -10px);
-}
-.shadow-text:before {
-  text-shadow: 1px 1px, 2px 2px, 3px 3px, 4px 4px, 5px 5px, 6px 6px, 7px 7px,
-    8px 8px, 9px 9px, 10px 10px;
-}
+@import "~/assets/scss/fizzbuzz.scss";
+@import "~/assets/scss/windy.scss";
 
-// animation for windy
-hr {
-  @apply -ml-[300px] border-r-[600px] border-r-white absolute animate-[windy] transition-opacity duration-1000 opacity-0;
-  animation-name: windy;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-@keyframes windy {
-  from {
-    transform: rotate(90deg) translateX(0);
-  }
-  to {
-    transform: rotate(90deg) translateX(100vh);
-  }
-}
 </style>

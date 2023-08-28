@@ -1,0 +1,17 @@
+
+hr {
+    @apply -ml-[300px] border-r-[600px] border-r-white absolute animate-[windy] transition-opacity duration-1000 opacity-0;
+    animation-name: windy;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes windy {
+    from {
+      transform: rotate(90deg) translateX(0);
+    }
+    to {
+      transform: rotate(90deg) translateX(100vh);
+    }
+  }
