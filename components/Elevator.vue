@@ -115,7 +115,7 @@ function chainAnimation() {
     chain.position.copy(_chainBody[index].position);
   });
   if (elevator.floor >= 0) {
-    _chainBody[0].position.y = 25 + elevator.floor * 4.5;
+    _chainBody[0].position.y = 25 + elevator.floor * 4;
   }
   _chainBody.forEach((chain: any) => {
     chain.position.set(0, chain.position.y, 0);

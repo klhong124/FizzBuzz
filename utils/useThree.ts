@@ -51,11 +51,10 @@ function disposeObject(object: Group | Object3D) {
   }
 }
 
-export function useThree () {  
+export function useThree() {
   function initThree(canvasMountId: string) {
     const width = window.innerWidth;
     const height = window.innerHeight;
-
 
     // Camera
     const camera = new OrthographicCamera(
@@ -66,12 +65,11 @@ export function useThree () {
       1,
       1000
     );
-    camera.position.set(15, 5, 15);
+    camera.position.set(15, 10, 15);
     camera.lookAt(0, 5, 0);
     const scene = new Scene();
 
-  
-    const ambientLight = new THREE.AmbientLight(0xffffff,1.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
     scene.add(ambientLight);
 
     // Helpers
@@ -97,8 +95,6 @@ export function useThree () {
       camera.bottom = height / -200;
       camera.updateProjectionMatrix();
     });
-
-  
 
     // Controls
     // const controls = new OrbitControls(camera, renderer.domElement);
@@ -135,7 +131,7 @@ export function useThree () {
     var shape = new CANNON.Sphere(size);
     var mass = 1.5;
     var lastChain = null;
-    var N = 30
+    var N = 30;
     const chains = [];
     for (var i = 0; i < N; i++) {
       // Create a new body
