@@ -101,7 +101,7 @@ export function useThree () {
   
 
     // Controls
-    const controls = new OrbitControls(camera, renderer.domElement);
+    // const controls = new OrbitControls(camera, renderer.domElement);
 
     return { scene, camera, renderer };
   }
