@@ -6,7 +6,7 @@
     <Elevator />
     <Controller />
     <Floor />
-    <Input />
+    <FloorInput />
 
     <main class="absolute">
       <slot />

@@ -9,7 +9,7 @@ const { floor } = storeToRefs(store);
     <div class="font-primary text-5xl uppercase text-black">
       Fizz Buzz Elevator
     </div>
-    <p class="text-xl mt-4 ">Welcome to FizzBuzz Elevator.</p>
+    <p class="mt-4 ">created by <a href="https://ryankwan.vercel.app/" target="_blank" class="underline">Ryan Kwan</a> | <a href="https://github.com/klhong124/FizzBuzz" target="_blank" class="underline">GitHub Source Code</a></p>
   </div>
 </template>
 

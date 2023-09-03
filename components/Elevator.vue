@@ -1,29 +1,10 @@
 <script setup lang="ts">
 import { useThree } from "@/utils/useThree";
 import { DOOR_OPEN_TIMEOUT } from "@/utils/constants";
-import type { Body } from "cannon-es";
-
-import { useElevator } from "~/store/elevator";
-const store = useElevator();
-const isMoving = computed(() => store.isMoving);
-
-let safeToOpenDoor = false;
-setTimeout(() => {
-  safeToOpenDoor = true;
-}, DOOR_OPEN_TIMEOUT);
-watch(isMoving, (bool) => {
-  if (!bool) {
-    setTimeout(() => {
-      safeToOpenDoor = true;
-    }, DOOR_OPEN_TIMEOUT);
-  } else {
-    safeToOpenDoor = false;
-  }
-});
-
-import {  OrthographicCamera, Scene, WebGLRenderer } from "three";
-import { World } from "cannon-es";
-// import CannonDebugger from "cannon-es-debugger";
+import type { Body, World } from "cannon-es";
+import { OrthographicCamera, Scene, WebGLRenderer } from "three";
+const { initThree, cleanUpThree, initCannon, cameraTracking, elevator, lobby } =
+  useThree();
 
 let _scene: Scene;
 let _camera: OrthographicCamera;
@@ -32,12 +13,29 @@ let _renderLoopId: number;
 let _world: World;
 let _elevatorBody: Body;
 let _chainsBody: Body[];
+
+import { useElevator } from "~/store/elevator";
+const store = useElevator();
+const isMoving = computed(() => store.isMoving);
+
+// safe to open door means a second after the elevator is stopped
+let awaitDoorOpen: NodeJS.Timeout = setTimeout(() => {
+  elevator.doors.isSafeToOpen = true;
+}, DOOR_OPEN_TIMEOUT);
+
+watch(isMoving, (moving) => {
+  if (!moving) {
+    awaitDoorOpen = setTimeout(() => {
+      elevator.doors.isSafeToOpen = true;
+    }, DOOR_OPEN_TIMEOUT);
+  } else {
+    clearTimeout(awaitDoorOpen);
+    elevator.doors.isSafeToOpen = false;
+  }
+});
+
+// import CannonDebugger from "cannon-es-debugger";
 // let _cannonDebugger: { update: () => void };
-const { initThree, cleanUpThree, initCannon, cameraTracking, elevator, lobby } =
-  useThree();
-const canvas = computed(
-  () => document.getElementById("elevator") as HTMLCanvasElement
-);
 
 function physicStabilization() {
   _elevatorBody.position.set(0, _elevatorBody.position.y, 0);
@@ -49,19 +47,14 @@ function physicStabilization() {
 function renderLoop() {
   _world.step(1 / 60);
   _renderer.render(_scene, _camera);
-  //   _cannonDebugger.update();
   cameraTracking(_camera, _elevatorBody);
   elevator.track(_elevatorBody, _chainsBody);
-
-  if (safeToOpenDoor) {
-    elevator.doors.open();
-  } else {
-    elevator.doors.close();
-  }
+  elevator.doors.operate();
   physicStabilization();
-
   _renderLoopId = requestAnimationFrame(renderLoop);
+  // _cannonDebugger.update();
 }
+
 function setupScene() {
   //initialize
   const { scene, camera, renderer } = initThree("elevator");
@@ -78,15 +71,18 @@ function setupScene() {
   lobby.init(_scene);
   _renderLoopId = requestAnimationFrame(renderLoop);
 }
+
 onMounted(() => {
-  if (canvas.value) {
+  if (document.getElementById("elevator")) {
     setupScene();
   }
 });
+
 onBeforeUnmount(() => {
   cancelAnimationFrame(_renderLoopId);
   cleanUpThree(_scene, _renderer);
 });
+
 </script>
 
 <template>

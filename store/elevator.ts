@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { defineStore } from "pinia";
+import { ELEVATOR_SPEED } from "@/utils/constants";
+
 export const useElevator = defineStore("elevator", {
   state: () => ({
     floor: 0 as number,
@@ -8,7 +10,7 @@ export const useElevator = defineStore("elevator", {
   actions: {
     async operate() {
       while (true) {
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, ELEVATOR_SPEED));
         if (this.isMovingUp) {
           this.floor++;
         } else if (this.isMovingDown) {

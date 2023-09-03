@@ -11,6 +11,7 @@ const DOOR_OFFSET = 0.2;
 export default {
   left: new Mesh(doorGeometry, doorMaterial),
   right: new Mesh(doorGeometry, doorMaterial),
+  isSafeToOpen: false,
 
   init: function (scene: Scene) {
     this.left.position.set(-0.6, 2, 0.79);
@@ -31,6 +32,15 @@ export default {
       this.right.position.x -= DOORS_OPEN_SPEED;
     }
   },
+
+  operate: function () {
+    if (this.isSafeToOpen) {
+      this.open();
+    } else {
+      this.close();
+    }
+  },
+
   track: function (target: Body) {
     this.left.position.y = target.position.y - DOOR_OFFSET;
     this.right.position.y = target.position.y - DOOR_OFFSET;

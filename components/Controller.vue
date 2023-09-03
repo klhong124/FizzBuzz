@@ -2,28 +2,23 @@
 import { useElevator } from "~/store/elevator";
 const elevator = useElevator();
 
+const isMoving = computed(() => elevator.isMoving);
+
 const inputNumber = ref("0");
-const locked = ref(false);
 const resetOnNext = ref(false);
 
-const isMoving = computed(() => elevator.isMoving);
-watch(isMoving, (bool) => {
-  if (bool) {
-    locked.value = true;
-  } else {
-    locked.value = false;
-    resetOnNext.value = true;
-  }
-});
-
 const buttonOnClick = (number: number) => {
-  if (locked.value) return;
   if (resetOnNext.value) {
     inputNumber.value = "0";
   }
   resetOnNext.value = false;
   inputNumber.value += number.toString();
+
+  if (+inputNumber.value > 99) {
+    inputNumber.value = "99";
+  }
 };
+
 const deleteOnClick = () => {
   inputNumber.value = inputNumber.value.slice(0, -1);
 };
@@ -35,7 +30,10 @@ const alwaysTwoDigits = (number: number) => {
 </script>
 
 <template>
-  <div class="absolute top-1/2 -translate-y-1/2 left-12">
+  <div
+    class="absolute top-1/2 -translate-y-1/2 left-12 transition-all delay-400 ease-in"
+    :class="{ '-ml-60': isMoving }"
+  >
     <div class="glass">
       <div class="grid grid-cols-2 gap-2">
         <div class="col-span-2 text-center text-7xl font-primary mb-2">
@@ -67,7 +65,10 @@ const alwaysTwoDigits = (number: number) => {
           </svg>
         </button>
         <button
-          @click="elevator.selectedFloor = +inputNumber"
+          @click="
+            elevator.selectedFloor = +inputNumber;
+            resetOnNext = true;
+          "
           class="w-8 h-8 mt-6 mx-auto"
         >
           <svg

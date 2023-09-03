@@ -7,35 +7,32 @@ const isMovingDown = computed(() => elevator.isMovingDown);
 const isMoving = computed(() => elevator.isMoving);
 const floors = ref();
 
+import { ELEVATOR_SPEED } from "@/utils/constants";
+
 watch(isMoving, (bool) => {
   bool && elevator.operate();
 });
 
-const shiftDown = () => {
-  floors.value.classList.add("shiftDown");
-  setTimeout(() => {
-    floors.value.classList.remove("shiftDown");
-  }, 160);
-};
 
-const shiftUp = () => {
-  floors.value.classList.add("shiftUp");
+const shift = (direction: 'up' | 'down') => {
+  const className = direction === 'down' ? "shiftDown" : "shift";
+  floors.value.classList.add(className);
   setTimeout(() => {
-    floors.value.classList.remove("shiftUp");
-  }, 160);
+    floors.value.classList.remove(className);
+  }, ELEVATOR_SPEED * 0.9);
 };
 
 watch(isMovingUp, (bool) => {
-  !bool && shiftUp();
+  !bool && shift('up');
 });
 
 watch(isMovingDown, (bool) => {
-  !bool && shiftDown();
+  !bool && shift('down');
 });
 
 watch(floor, () => {
-  isMovingUp.value && shiftUp();
-  isMovingDown.value && shiftDown();
+  isMovingUp.value && shift('up');
+  isMovingDown.value && shift('down');
 });
 </script>
 
@@ -43,17 +40,21 @@ watch(floor, () => {
   <div
     class="absolute right-0 max-h-screen overflow-hidden flex flex-col justify-center"
   >
-    <div ref="floors">
+    <div
+      ref="floors"
+      :style="{ 
+        animationDuration: ELEVATOR_SPEED * 0.9 + 'ms' }"
+    >
       <div v-for="n in 7">
         <div
           class="level"
           :class="{
-            current: n === 4,
+            current: n === 4 && !isMoving,
           }"
           @click="elevator.selectedFloor = floor + (4 - n)"
           v-if="floor + (4 - n) >= 0"
         >
-          {{ floor + (4 - n) || 'G' }}
+          {{ floor + (4 - n) || "G" }}
         </div>
         <div v-else class="h-[300px]"></div>
       </div>
@@ -66,8 +67,7 @@ watch(floor, () => {
   @apply cursor-pointer h-[300px] flex justify-end items-center pr-20 hover:pr-24 transition-all text-[160px] uppercase font-bold text-gray-500 opacity-70 font-primary;
 
   &::before {
-    @apply w-8 h-4 bg-gray-500 absolute right-0;
-    content: "";
+    @apply w-8 h-4 bg-gray-500 absolute right-0 content-[''];
   }
 
   &.current {
@@ -78,7 +78,7 @@ watch(floor, () => {
   }
 }
 
-@keyframes shiftUp {
+@keyframes shift {
   from {
     transform: translateY(-300px);
   }
@@ -95,10 +95,10 @@ watch(floor, () => {
   }
 }
 
-.shiftUp {
-  animation: shiftUp 0.15s ease-in-out;
+.shift {
+  animation-name: shift;
 }
 .shiftDown {
-  animation: shiftDown 0.15s ease-in-out;
+  animation-name: shiftDown;
 }
 </style>
