@@ -1,0 +1,3 @@
+export const DOOR_OPEN_TIMEOUT = 1500;
+export const SHOW_BACKGROUND_TIMEOUT = 1000;
+export const DOORS_OPEN_SPEED = 0.06;

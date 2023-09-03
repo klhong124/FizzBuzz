@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useElevator } from "~/store/elevator";
+import { DOOR_OPEN_TIMEOUT, SHOW_BACKGROUND_TIMEOUT } from "@/utils/constants";
+
 const elevator = useElevator();
 const isMoving = computed(() => elevator.isMoving);
 
 const hiddenBackground = ref();
 const magicText = ref();
+let awaitDoorOpen: NodeJS.Timeout;
 
 const getHiddenBackground = computed(() => {
   switch (magicText.value) {
@@ -20,24 +23,23 @@ const getHiddenBackground = computed(() => {
 
 watch(isMoving, (moving) => {
   const changeBackground = () => {
-    // set magic text 
+    // set magic text
     magicText.value = elevator.getFizzBuzz;
-    if (elevator.isJustNumber) {
-      magicText.value < 10 && (magicText.value = "0" + magicText.value);
-    }
-    // show background for only one second
+    +magicText.value < 10 && (magicText.value = "0" + magicText.value);
+    
+    // show background
     hiddenBackground.value.style.opacity = 1;
     setTimeout(() => {
       hiddenBackground.value.style.opacity = 0;
-    }, 1000);
+    }, SHOW_BACKGROUND_TIMEOUT);
   };
 
   if (!moving) {
-    // set timeout for waiting elevator door open
-    setTimeout(() => {
+    awaitDoorOpen = setTimeout(() => {
       changeBackground();
-    }, 1500);
+    }, DOOR_OPEN_TIMEOUT);
   } else {
+    clearTimeout(awaitDoorOpen);
     hiddenBackground.value.style.opacity = 0;
   }
 });
