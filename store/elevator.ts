@@ -26,15 +26,18 @@ export const useElevator = defineStore("elevator", {
     getFizzBuzz: (state) => {
       if (state.floor === 0) return state.floor;
       if (state.floor % 3 === 0 && state.floor % 5 === 0) {
-        return "FizzBuzz";
+        return "fizzbuzz";
       }
       if (state.floor % 3 === 0) {
-        return "Fizz";
+        return "fizz";
       }
       if (state.floor % 5 === 0) {
-        return "Buzz";
+        return "buzz";
       }
       return state.floor;
     },
+    isJustNumber() {
+      return typeof this.getFizzBuzz === "number";
+    },      
   },
 });

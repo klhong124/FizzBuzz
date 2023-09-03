@@ -6,10 +6,10 @@
     <Elevator />
     <Controller />
     <Floor />
+    <Input />
 
     <main class="absolute">
       <slot />
     </main>
-    <Input />
   </div>
 </template>

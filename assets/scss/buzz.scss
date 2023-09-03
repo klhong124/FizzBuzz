@@ -2,7 +2,7 @@
 .buzz{
     &::after,&::before{
         @apply text-[30vw] absolute bg-clip-text text-transparent font-bold bg-gradient-to-b from-pink-500 via-red-500 to-yellow-500
-        top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2  opacity-80;
+        top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2  opacity-80 uppercase;
         content:attr(data-text);
         text-shadow: 0.05em 0 0 #6adce0, -0.03em -0.04em 0 #c4a8ec,
         0.025em 0.04em 0 #4446c2;
