@@ -2,7 +2,15 @@
 
 Welcome to FizzBuzz Elevator, To see the actual code and interact with the live demo, you can visit the provided link:  [FizzBuzz Elevator Demo](https://fizz-buzz-elevator.vercel.app).
 
-
+## Getting Started
+### String server
+```zsh
+npm run dev
+```
+### Testing with Vitest
+```zsh
+npm test
+```
 
 ## FizzBuzz Rules
 This web application implements the classic FizzBuzz problem.
@@ -39,6 +47,7 @@ If you are interested in how the UI is implemented, please check the [component/
 The code is structured using Object-Oriented Design (OOD) programming principles to maintain cleanliness and simplicity.
 
 
-
+## Deployment
+The application is deployed on Vercel
 
 
