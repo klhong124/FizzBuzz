@@ -5,19 +5,19 @@ const expectedFizzBuzz = [
   0,
   1,
   2,
-  "Fizz",
+  "fizz",
   4,
-  "Buzz",
-  "Fizz",
+  "buzz",
+  "fizz",
   7,
   8,
-  "Fizz",
-  "Buzz",
+  "fizz",
+  "buzz",
   11,
-  "Fizz",
+  "fizz",
   13,
   14,
-  "FizzBuzz",
+  "fizzbuzz",
 ];
 
 describe("Elevator Store", () => {
@@ -31,7 +31,7 @@ describe("Elevator Store", () => {
     elevator.floor = elevator.selectedFloor;
   }
 
-  it("store init", () => {
+  it("Elevator store init", () => {
     const elevator = useElevator();
     expect(elevator.floor).toBe(0);
     expect(elevator.selectedFloor).toBe(0);
@@ -53,14 +53,11 @@ describe("Elevator Store", () => {
     }
   });
 
-  if (
-    ("check elevator is moving up",
-    async () => {
-      const elevator = useElevator();
-      elevator.selectedFloor = 1;
-      expect(elevator.isMovingUp).toBe(true);
-    })
-  );
+  it("check elevator is moving up", async () => {
+    const elevator = useElevator();
+    elevator.selectedFloor = 1;
+    expect(elevator.isMovingUp).toBe(true);
+  });
 
   it("check elevator is moving down", async () => {
     const elevator = useElevator();
@@ -68,4 +65,6 @@ describe("Elevator Store", () => {
     elevator.floor = 1;
     expect(elevator.isMovingDown).toBe(true);
   });
+
+  
 });

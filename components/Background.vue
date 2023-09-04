@@ -26,7 +26,7 @@ watch(isMoving, (moving) => {
     // set magic text
     magicText.value = elevator.getFizzBuzz;
     +magicText.value < 10 && (magicText.value = "0" + magicText.value);
-    
+
     // show background
     hiddenBackground.value.style.opacity = 1;
     setTimeout(() => {
