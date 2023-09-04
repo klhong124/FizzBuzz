@@ -5,7 +5,7 @@ const { floor } = storeToRefs(store);
 </script>
 
 <template>
-  <div class="glass m-12 p-8 ">
+  <div class="glass m-8 p-4 ">
     <div class="font-primary text-3xl uppercase text-black">
       Fizz Buzz Elevator
     </div>

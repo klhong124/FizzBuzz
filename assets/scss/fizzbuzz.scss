@@ -1,7 +1,7 @@
 
 .fizzbuzz{
   &::after,&::before{
-      @apply text-[23vw] xl:text-[500px] font-bold absolute
+      @apply text-[23vw] xl:text-[300px] font-bold absolute
       text-transparent bg-clip-text uppercase
       bg-gradient-to-r from-orange-600 to-orange-500 content-[attr(data-text)];
 
